@@ -3,6 +3,8 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const { createServer } = require('http');
 
+const { dbConnection } = require('../databases/config');
+
 class Server {
 
   constructor() {
@@ -12,16 +14,24 @@ class Server {
 
     this.paths = {
       uploads: '/api/uploads',
+      user: '/api/user',
     }
 
     // this.authPath     = '/api/auth';
     // this.usuariosPath = '/api/usuarios';
+
+    // Conectar a base de datos
+    // this.conectDB();
 
     // Middlewares
     this.middlewares();
 
     // Rutas de mi aplicación
     this.routes();
+  }
+
+  async conectDB() {
+    await dbConnection();
   }
 
   middlewares() {
