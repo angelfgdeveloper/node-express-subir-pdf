@@ -1,5 +1,39 @@
 const { Schema, model } = require('mongoose');
 
+const ListPosgraduateSchema = Schema({
+  type: {
+    type: String,
+    required: [true, 'El tipo de posgrado es obligatorio'],
+  },
+  title: {
+    type: String,
+    required: [true, 'El titulo es obligatorio'],
+  },
+  startMonth: {
+    type: String,
+    require: [true, 'El periodo de inicio es obligatorio - mes'],
+  },
+  startYear: {
+    type: Number,
+    default: 0,
+    require: [true, 'El periodo de inicio es obligatorio - annio'],
+  },
+  endMonth: {
+    type: String,
+    require: [true, 'El periodo de finalizacion es obligatorio - mes'],
+  },
+  endYear: {
+    type: Number,
+    default: 0,
+    require: [true, 'El periodo de finalizacion es obligatorio - annio'],
+  },
+  status: {
+    type: Boolean,
+    default: false,
+    required: true,
+  }
+});
+
 const PosgraduateSchema = Schema({
   state: {
     type: Number,
@@ -21,39 +55,7 @@ const PosgraduateSchema = Schema({
     ref: 'User',
     required: true,
   },
-  posgraduates: [{
-    type: {
-        type: String,
-        required: [true, 'El tipo de posgrado es obligatorio'],
-      },
-      title: {
-        type: String,
-        required: [true, 'El titulo es obligatorio'],
-      },
-      startMonth: {
-        type: String,
-        require: [true, 'El periodo de inicio es obligatorio - mes'],
-      },
-      startYear: {
-        type: Number,
-        default: 0,
-        require: [true, 'El periodo de inicio es obligatorio - annio'],
-      },
-      endMonth: {
-        type: String,
-        require: [true, 'El periodo de finalizacion es obligatorio - mes'],
-      },
-      endYear: {
-        type: Number,
-        default: 0,
-        require: [true, 'El periodo de finalizacion es obligatorio - annio'],
-      },
-      status: {
-        type: Boolean,
-        default: false,
-        required: true,
-      },
-  }]
+  posgraduates: [ListPosgraduateSchema]
 });
 
 PosgraduateSchema.methods.toJSON = function () {
