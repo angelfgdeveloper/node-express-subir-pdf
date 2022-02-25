@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose');
 
 const PersonalSchema = Schema({
+  motherLastName: {
+    type: String,
+    required: [true, 'El apellido materno es obligatorio'],
+  },
   lastName: {
     type: String,
     required: [true, 'El apellido paterno es obligatorio'],
@@ -76,8 +80,9 @@ const PersonalSchema = Schema({
 });
 
 PersonalSchema.methods.toJSON = function () {
-  const { __v, status, ...data } = this.toObject();
-  return data;
+  const { __v, _id, status, ...personal } = this.toObject();
+  personal.id = _id;
+  return personal;
 };
 
 module.exports = model('Personal', PersonalSchema);

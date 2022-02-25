@@ -16,13 +16,14 @@ class Server {
       signin: '/api/signin',
       auth: '/api/auth',
       uploads: '/api/uploads',
+      user: '/api/user',
     }
 
     // this.authPath     = '/api/auth';
     // this.usuariosPath = '/api/usuarios';
 
     // Conectar a base de datos
-    // this.conectDB();
+    this.conectDB();
 
     // Middlewares
     this.middlewares();
@@ -55,6 +56,7 @@ class Server {
     this.app.use(this.paths.signin, require('../routes/signin'));
     this.app.use(this.paths.auth, require('../routes/auth'));
     this.app.use(this.paths.uploads, require('../routes/uploads'));
+    this.app.use(this.paths.user, require('../routes/user'));
   }
 
   listen() {
