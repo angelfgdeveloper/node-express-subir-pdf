@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { personalPost } = require('../controllers/user');
+const { personalPost, acamidecPost } = require('../controllers/user');
 const { validfields, validJWT } = require('../middlewares');
 
 const router = Router();
@@ -23,5 +23,19 @@ router.post('/personal', [
   validfields
 ], personalPost);
 
+router.post('/academic', [
+  validJWT,
+  check('levelAcademic', 'El nivel academico es obligatorio').not().isEmpty(),
+  check('institute', 'El nombre de escuela es obligatorio').not().isEmpty(),
+  check('academicAdvance', 'El avance academico es obligatorio').not().isEmpty(),
+  check('startMonth', 'El periodo de inicio es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('startYear', 'El periodo de inicio es obligatorio es obligatorio - annio').isLength({ max: 4 }),
+  check('endMonth', 'El periodo de finalizacion es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4 }),
+  check('certificate', 'El certificado es obligatorio').isBoolean(),
+  check('titleAchieved', 'El titulo es obligatorio').isBoolean(),
+  check('identificationCard', 'La cedula es obligatoria').isBoolean(),
+  validfields
+], academicPost);
 
 module.exports = router;

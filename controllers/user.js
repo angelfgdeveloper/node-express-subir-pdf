@@ -37,6 +37,38 @@ const personalPost = async(req = request, res = response) => {
 }
 
 
+const acamidecPost = async(req = request, res = response) => {
+
+  const {  
+    levelAcademic, institute, academicAdvance, startMonth, startYear, endMonth, 
+    endYear, certificate, titleAchieved, identificationCard
+   } = req.body;
+  
+  try {
+
+    const dataAcademic = { 
+      levelAcademic, institute, academicAdvance, startMonth, startYear, endMonth, 
+    endYear, certificate, titleAchieved, identificationCard,
+      user: req.user._id,
+      status: true
+    }
+
+    res.json({
+      dataAcademic,
+      msg: 'Todo bien',
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Problema en el servidor - Comunicate con el Administrador'
+    });
+  }
+
+}
+
+
 module.exports = {
-  personalPost
+  personalPost,
+  acamidecPost,
 }
