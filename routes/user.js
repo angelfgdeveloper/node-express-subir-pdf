@@ -11,7 +11,7 @@ router.post('/personal', [
   check('motherLastName', 'El apellido materno es obligatorio').not().isEmpty(),
   check('lastName', 'El apellido paterno es obligatorio').not().isEmpty(),
   check('name', 'El nombre es obligatorio').not().isEmpty(),
-  check('dateOfBirth', 'La fecha de nacimiento es obligatoria').not().isEmpty(),
+  check('dateOfBirth', 'La fecha de nacimiento es obligatoria').isDate(),
   check('gender', 'El genero es obligatorio').not().isEmpty(),
   check('state', 'El estado es obligatorio').not().isEmpty(),
   check('town', 'El municipio es obligatorio').not().isEmpty(),
