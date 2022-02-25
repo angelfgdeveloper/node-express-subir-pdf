@@ -13,8 +13,9 @@ class Server {
     this.server = createServer(this.app);
 
     this.paths = {
+      signin: '/api/signin',
+      auth: '/api/auth',
       uploads: '/api/uploads',
-      user: '/api/user',
     }
 
     // this.authPath     = '/api/auth';
@@ -51,6 +52,8 @@ class Server {
   }
 
   routes() {
+    this.app.use(this.paths.signin, require('../routes/signin'));
+    this.app.use(this.paths.auth, require('../routes/auth'));
     this.app.use(this.paths.uploads, require('../routes/uploads'));
   }
 
