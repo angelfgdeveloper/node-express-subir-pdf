@@ -37,7 +37,7 @@ const personalPost = async(req = request, res = response) => {
 }
 
 
-const acamidecPost = async(req = request, res = response) => {
+const academicPost = async(req = request, res = response) => {
 
   const {  
     levelAcademic, institute, academicAdvance, startMonth, startYear, endMonth, 
@@ -70,5 +70,5 @@ const acamidecPost = async(req = request, res = response) => {
 
 module.exports = {
   personalPost,
-  acamidecPost,
+  academicPost,
 }

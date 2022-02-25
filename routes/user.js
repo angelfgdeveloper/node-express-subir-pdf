@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { personalPost, acamidecPost } = require('../controllers/user');
+const { personalPost, academicPost } = require('../controllers/user');
 const { validfields, validJWT } = require('../middlewares');
 
 const router = Router();
