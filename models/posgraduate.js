@@ -55,7 +55,10 @@ const PosgraduateSchema = Schema({
     ref: 'User',
     required: true,
   },
-  posgraduates: [ListPosgraduateSchema]
+  posgraduates: {
+    type: [ListPosgraduateSchema],
+    default: []
+  }
 });
 
 PosgraduateSchema.methods.toJSON = function () {

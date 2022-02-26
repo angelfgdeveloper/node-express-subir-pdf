@@ -1,7 +1,11 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { personalPost, academicPost } = require('../controllers/user');
+const { 
+  personalPost, 
+  academicPost, 
+  posgraduatePost } = require('../controllers/user');
+
 const { validfields, validJWT } = require('../middlewares');
 
 const router = Router();
@@ -29,13 +33,27 @@ router.post('/academic', [
   check('institute', 'El nombre de escuela es obligatorio').not().isEmpty(),
   check('academicAdvance', 'El avance academico es obligatorio').not().isEmpty(),
   check('startMonth', 'El periodo de inicio es obligatorio es obligatorio - mes').not().isEmpty(),
-  check('startYear', 'El periodo de inicio es obligatorio es obligatorio - annio').isLength({ max: 4 }),
+  check('startYear', 'El periodo de inicio es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
   check('endMonth', 'El periodo de finalizacion es obligatorio es obligatorio - mes').not().isEmpty(),
-  check('endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4 }),
+  check('endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
   check('certificate', 'El certificado es obligatorio').isBoolean(),
   check('titleAchieved', 'El titulo es obligatorio').isBoolean(),
   check('identificationCard', 'La cedula es obligatoria').isBoolean(),
   validfields
 ], academicPost);
+
+router.post('/posgraduate', [
+  validJWT,
+  check('state', 'El estado del posgrado es obligatorio - NO(0), YES(1), IN_PROCESS(2)').isLength({max: 2}),
+  check('total', 'El total de posgrados es obligatorio').isLength({min: 1, max: 4}),
+  check('posgraduates.*.type', 'El tipo de posgrado es requerido').not().isEmpty(),
+  check('posgraduates.*.title', 'El titulo de posgrado es requerido').not().isEmpty(),
+  check('posgraduates.*.startMonth', 'El periodo de inicio es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('posgraduates.*.startYear', 'El periodo de inicio es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
+  check('posgraduates.*.endMonth', 'El periodo de finalizacion es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('posgraduates.*.endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
+  validfields
+], posgraduatePost);
+
 
 module.exports = router;
