@@ -1,5 +1,5 @@
 const { response, request } = require('express');
-const { Personal, User, Academic, Posgraduate } = require('../models');
+const { Personal, Academic, Posgraduate, Work } = require('../models');
 
 const personalPost = async(req = request, res = response) => {
 
@@ -155,8 +155,73 @@ const posgraduatePost = async(req = request, res = response) => {
 
 }
 
+
+const workPost = async(req = request, res = response) => {
+  const { state, works = [] } = req.body;
+  
+  try {
+
+     // state - NO(0), YES(1)
+    // total - 1 hasta 3
+
+    let min = 1;
+    let max = 3;
+    let dataWork = {};
+
+    switch (state) {
+      case 0: // NO
+        dataWork = { 
+          state, 
+          user: req.user._id,
+          status: true
+        }
+        break;
+      case 1: // YES
+        if (works.length >= min && works.length <= max) {
+
+          works.forEach((p) => p.status = true);
+
+          dataWork = { 
+            state, 
+            user: req.user._id,
+            status: true,
+            works: [ ...works]
+          }
+
+        } else {
+          return res.status(400).json({
+            message: 'Solo es disponible tener de 1 a máximo 3 experiencias de trabajo'
+          });
+        }
+
+        break;
+      default:
+        return res.status(400).json({
+          message: 'Tiene que seleccionar un estado existente - NO(0), YES(1)'
+        });
+    }
+
+    const work = new Work(dataWork);
+    await work.populate('user', 'email');
+
+    // TODO: Grabar el work 
+
+    return res.status(201).json({
+      work
+    });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Problema en el servidor - Comunicate con el Administrador'
+    });
+  }
+}
+
+
 module.exports = {
   personalPost,
   academicPost,
   posgraduatePost,
+  workPost,
 }

@@ -4,7 +4,8 @@ const { check } = require('express-validator');
 const { 
   personalPost, 
   academicPost, 
-  posgraduatePost } = require('../controllers/user');
+  posgraduatePost,
+  workPost } = require('../controllers/user');
 
 const { validfields, validJWT } = require('../middlewares');
 
@@ -44,7 +45,7 @@ router.post('/academic', [
 
 router.post('/posgraduate', [
   validJWT,
-  check('state', 'El estado del posgrado es obligatorio - NO(0), YES(1), IN_PROCESS(2)').isLength({max: 2}),
+  check('state', 'El estado del posgrado es obligatorio - NO(0), YES(1), IN_PROCESS(2)').isIn([ 0, 1, 2 ]),
   check('total', 'El total de posgrados es obligatorio').isLength({min: 1, max: 4}),
   check('posgraduates.*.type', 'El tipo de posgrado es requerido').not().isEmpty(),
   check('posgraduates.*.title', 'El titulo de posgrado es requerido').not().isEmpty(),
@@ -54,6 +55,20 @@ router.post('/posgraduate', [
   check('posgraduates.*.endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
   validfields
 ], posgraduatePost);
+
+router.post('/work', [
+  validJWT,
+  check('state', 'El estado del posgrado es obligatorio - NO(0), YES(1)').isIn([ 0, 1]),
+  check('works.*.company', 'El nombre de la empresa es requerido').not().isEmpty(),
+  check('works.*.job', 'El trabajo que realizo es requerido').not().isEmpty(),
+  check('works.*.area', 'El área donde estuvo es requerida').not().isEmpty(),
+  check('works.*.startMonth', 'El periodo de inicio es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('works.*.startYear', 'El periodo de inicio es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
+  check('works.*.endMonth', 'El periodo de finalizacion es obligatorio es obligatorio - mes').not().isEmpty(),
+  check('works.*.endYear', 'El periodo de finalizacion es obligatorio es obligatorio - annio').isLength({ max: 4, min: 4 }),
+  check('works.*.description', 'La descripción o actividades son requeridas').not().isEmpty(),
+  validfields
+], workPost);
 
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const ExperiencesScheman = Schema({
+const WorksScheman = Schema({
   company: {
     type: String,
     required: [true, 'El nombre de la empresa es obligatorio'],
@@ -59,7 +59,7 @@ const WorkSchema = Schema({
     ref: 'User',
     required: true,
   },
-  experiences: [ExperiencesScheman]
+  works: [WorksScheman]
 });
 
 WorkSchema.methods.toJSON = function () {
